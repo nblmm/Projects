@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Health Diary</string>
+    <string name="username_string">UserName</string>
+    <string name="password_string">Password</string>
+    <string name="enter_username_hint">Enter username</string>
+    <string name="enter_password_hint">Enter Password</string>
+    <string name="login_string">Login</string>
+    <string name="title_activity_weekly_question">WeeklyQuestionActivity</string>
+
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
+    <string name="title_activity_month_group">MonthGroup</string>
+    <string name="title_activity_month_entrance">Month Entrance</string>
+    <string name="title_activity_weekly_entrance">Week Entrance</string>
+    <string name="title_activity_weekly_questions">Weekly Questions</string>
+
+    <string name="Q1">Did you have any of the following symptoms? Check all that apply.</string>
+    <string name="Q2">How many people at home (excluding yourself) had flu like symptoms?</string>
+    <string name="Q21">How many people at home (excluding yourself) had flu like symptoms?</string>
+    <string name="Q31">How many people outside your home you met had flu like symptoms?</string>
+    <string name="Q3">How many people outside your home you met had flu like symptoms?</string>
+    <string name="Q4">Did you do any of the following? Check all that apply.</string>
+    <string name="RQ1">Where are you?</string>
+    <string name="RQ2">Please estimate the number of people who are near you (within 6 feet).</string>
+    <string name="title_activity_weekly_q1_direct">Weekly Question1</string>
+    <string name="title_activity_weekly_q2_direct">Weekly Question2 and 3</string>
+    <string name="title_activity_weekly_q4_direct">Weekly Question4</string>
+    <string name="title_activity_random_moment_question">RandomMomentQuestion</string>
+    <string name="title_activity_random_moment_contacts">RandomMomentContacts</string>
+    <string name="title_activity_weekly_q3_direct">WeeklyQ3Direct</string>
+    <string name="title_activity_my_alarm">MyAlarm</string>
+    <string name="title_activity_setting">SettingActivity</string>
+</resources>
