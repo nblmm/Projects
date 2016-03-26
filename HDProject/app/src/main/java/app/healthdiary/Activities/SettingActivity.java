@@ -17,6 +17,7 @@ import android.widget.Toast;
 import java.util.Calendar;
 import java.util.Random;
 
+import app.healthdiary.Helper.FileUploader;
 import app.healthdiary.Helper.MyAlarmReceiver;
 import app.healthdiary.Services.LocationCollectionService;
 import app.healthdiary.R;
@@ -129,6 +130,7 @@ public class SettingActivity extends Activity {
         btn_Logout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View arg0) {
+
                 SharedPreferences sp = getSharedPreferences(UserInfo, 0);
                 SharedPreferences.Editor editor = sp.edit();
                 editor.putBoolean("isRemembered", false);

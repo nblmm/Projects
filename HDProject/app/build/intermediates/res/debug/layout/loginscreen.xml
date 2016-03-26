@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical"
+    android:background="@drawable/background3"
+    android:weightSum="1">
+
+    <TextView
+        android:id="@+id/username_textview"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/username_string"
+        android:textColor="@android:color/white"
+        android:layout_above="@+id/username_edittext"
+
+        android:textSize="22dp"
+        android:textStyle="bold"
+        android:layout_marginRight="20dp"
+        android:layout_alignLeft="@+id/username_edittext"
+        android:layout_alignStart="@+id/username_edittext">
+    </TextView>
+
+    <EditText
+        android:id="@+id/username_edittext"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/enter_username_hint"
+        android:inputType="text"
+        android:layout_above="@+id/password_edittext"
+        android:layout_marginBottom="33dp"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:text="">
+    </EditText>
+
+    <TextView
+        android:id="@+id/password_textview"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/password_string"
+        android:textColor="@android:color/white"
+        android:textSize="22dp"
+        android:layout_above="@+id/password_edittext"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:textStyle="bold|normal"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp">
+    </TextView>
+
+    <EditText
+        android:id="@+id/password_edittext"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/enter_password_hint"
+        android:inputType="textPassword"
+        android:fontFamily="@string/enter_username_hint"
+        android:layout_centerVertical="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginLeft="20dp"
+        android:layout_alignRight="@+id/username_edittext"
+        android:layout_alignEnd="@+id/username_edittext"
+        android:text="">
+    </EditText>
+
+    <CheckBox
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Remember Me"
+        android:id="@+id/cb_RememberMe"
+        android:layout_below="@+id/password_edittext"
+        android:layout_alignLeft="@+id/password_edittext"
+        android:layout_alignStart="@+id/password_edittext"
+        android:checked="false" />
+
+    <Button
+        android:id="@+id/login_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/login_string"
+        android:layout_gravity="center_horizontal"
+        android:textSize="22dp"
+        android:textStyle="bold"
+        android:layout_below="@+id/cb_RememberMe"
+        android:layout_centerHorizontal="true">
+    </Button>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="+ Forgot Password?"
+        android:id="@+id/btn_forgetpass"
+        android:layout_alignTop="@+id/login_button"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="66dp"
+        android:textSize="16dp"
+
+        android:background="@android:color/transparent"
+        android:layout_marginLeft="20dp"
+        android:layout_alignRight="@+id/login_button"
+        android:layout_alignEnd="@+id/login_button"
+        android:gravity="center|left"
+        android:textColor="@android:color/white" />
+
+
+</RelativeLayout><!-- From: file:/C:/Users/Hongyuan/Dropbox/Health%20Diary/Health%20Diary%20Project/app/src/main/res/layout/loginscreen.xml -->

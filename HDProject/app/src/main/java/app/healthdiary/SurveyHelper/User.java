@@ -103,6 +103,22 @@ public class User implements Serializable {
         return false;
     }
 
+    public boolean uploadFile(final String FileName)
+    {
+        try {
+            if (isSignedIn) {
+                JSONObject response = myResearch.uploadFile(FileName, mySessionID);
+                return response.getBoolean("status");
+            } else {
+                System.out.println("You must be signed in first");
+                return false;
+            }
+        }catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
     public Survey getSurvey(final SurveyHeading heading)
     {
         if(isSignedIn){

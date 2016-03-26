@@ -15,14 +15,14 @@
     <string name="title_activity_weekly_entrance">Week Entrance</string>
     <string name="title_activity_weekly_questions">Weekly Questions</string>
 
-    <string name="Q1">Did you have any of the following symptoms? Check all that apply.</string>
-    <string name="Q2">How many people at home (excluding yourself) had flu like symptoms?</string>
-    <string name="Q21">How many people at home (excluding yourself) had flu like symptoms?</string>
-    <string name="Q31">How many people outside your home you met had flu like symptoms?</string>
-    <string name="Q3">How many people outside your home you met had flu like symptoms?</string>
+    <string name="Q1">Q1/4 Did you have any of the following symptoms? Check all that apply.</string>
+    <string name="Q2">Q2/4 How many people at home (excluding yourself) had flu like symptoms?</string>
+    <string name="Q21">Q2/4 How many people at home (excluding yourself) had flu like symptoms?</string>
+    <string name="Q31">Q3/4 How many people outside your home you met had flu like symptoms?</string>
+    <string name="Q3">Q3/4 How many people outside your home you met had flu like symptoms?</string>
     <string name="Q4">Did you do any of the following? Check all that apply.</string>
     <string name="RQ1">Where are you?</string>
-    <string name="RQ2">Please estimate the number of people who are near you (within 6 feet).</string>
+    <string name="RQ2">Q4/4 Please estimate the number of people who are near you (within 6 feet).</string>
     <string name="title_activity_weekly_q1_direct">Weekly Question1</string>
     <string name="title_activity_weekly_q2_direct">Weekly Question2 and 3</string>
     <string name="title_activity_weekly_q4_direct">Weekly Question4</string>

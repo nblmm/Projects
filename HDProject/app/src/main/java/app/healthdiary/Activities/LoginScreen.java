@@ -52,32 +52,86 @@ public class LoginScreen extends Activity {
         Boolean is_Remember = sp.getBoolean("isRemembered", false);
         uname = (EditText) findViewById(R.id.username_edittext);
         passwd = (EditText) findViewById(R.id.password_edittext);
-        if(is_Remember){
-            cb_RemeberMe.setChecked(true);
-            uname.setText(sp.getString("username", ""));
-            passwd.setText(sp.getString("password", ""));
-            Toast.makeText(LoginScreen.this, "Logging in as " + sp.getString("username", "")+". Please hold on a second!", Toast.LENGTH_SHORT).show();
-            new HttpGetTask().execute();
-        }
-        str_Uname = uname.getText().toString();
-        str_Passwd = passwd.getText().toString();
         final Button loginButton = (Button) findViewById(R.id.login_button);
         loginButton.setOnClickListener(new OnClickListener() {
 
             public void onClick(View v) {
-                new HttpGetTask().execute();
+                str_Uname = uname.getText().toString();
+                str_Passwd = passwd.getText().toString();
+                SharedPreferences sp = getSharedPreferences(UserInfo, 0);
+                SharedPreferences.Editor editor = sp.edit();
                 if(cb_RemeberMe.isChecked()){
-                    SharedPreferences sp = getSharedPreferences(UserInfo, 0);
-                    SharedPreferences.Editor editor = sp.edit();
-                    editor.putBoolean("isRemembered",true);
+                    editor.putBoolean("isRemembered", true);
                     editor.putString("username", uname.getText().toString());
-                    editor.putString("password",passwd.getText().toString());
+                    editor.putString("password", passwd.getText().toString());
                     // Commit the edits!
                     editor.apply();
                 }
+                else{
+                    editor.putString("username", "");
+                    editor.putString("password", "");
+                    editor.putBoolean("isRemembered", false);
+                    editor.apply();
+                }
+                new HttpGetTask().execute();
+                /*
+                if (checkPassword(uname.getText(), passwd.getText())) {
+
+                    // Create an explicit Intent for starting the MainPage
+                    // Activity
+                    Intent MainPageIntent = new Intent(LoginScreen.this,
+                            MainPage.class);
+                    MainPageIntent.putExtra("user name", uname.getText().toString());
+                    // Use the Intent to start the MainPage Activity
+                    startActivity(MainPageIntent);
+                } else {
+                    uname.setText("");
+                    passwd.setText("");
+                }*/
             }
         });
+        if(is_Remember){
+            cb_RemeberMe.setChecked(true);
+            uname.setText(sp.getString("username", ""));
+            passwd.setText(sp.getString("password", ""));
+            str_Uname = uname.getText().toString();
+            str_Passwd = passwd.getText().toString();
+            Toast.makeText(LoginScreen.this, "Logging in as " + sp.getString("username", "")+". Please hold on a second!", Toast.LENGTH_SHORT).show();
+            new HttpGetTask().execute();
+        }
     }
+/*
+    private boolean checkPassword(Editable uname, Editable passwd) {
+        // test login
+        if(  uname.toString().equals("123") && passwd.toString().equals("123"))
+            return true;
+        else {
+            Toast.makeText(LoginScreen.this, "Username and password do not match, please try again", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+        //return true;*/
+        /*HttpAgent testSignin = new HttpAgent();
+        //Login = testSignin.signin(uname.toString(), passwd.toString());
+        Login = testSignin.signin("tester", "test1ng");
+        Toast.makeText(LoginScreen.this, Login.toString(), Toast.LENGTH_SHORT).show();
+        if(Login.equals(null))
+            return false;*/
+        /*
+        new Thread() {
+            public void run() {
+                HttpAgent testSignin = new HttpAgent();
+                //Login = testSignin.signin(uname.toString(), passwd.toString());
+                Login = testSignin.signin("tester", "test1ng");
+            }
+        }.run();
+        if (null == Login){
+            Toast.makeText(LoginScreen.this, "Username and password do not match, please try again", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+
+        return true;
+    }
+*/
     //Async thread to connect the Internet
     private class HttpGetTask extends AsyncTask<Void, Void, List<String>> {
 
@@ -94,6 +148,11 @@ public class LoginScreen extends Activity {
             }
             //user.signup();
             user.signin();
+
+            SharedPreferences sp = getSharedPreferences(UserInfo, 0);
+            SharedPreferences.Editor editor = sp.edit();
+            editor.putString("loggedname", name);
+            editor.apply();
 
             if(user.isSignedIn){
                 Calendar c=Calendar.getInstance();

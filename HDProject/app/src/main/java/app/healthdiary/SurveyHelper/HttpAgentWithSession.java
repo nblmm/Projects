@@ -16,7 +16,7 @@ import org.json.*;
 public class HttpAgentWithSession {
 
     private String localTestUrl = "http://localhost:8080/";
-    private String stagingURL = "http://***.***.***.***:8080/";
+    private String stagingURL = "http://52.27.225.80:8080/";
 
     private String url = stagingURL;
 
@@ -237,6 +237,20 @@ public class HttpAgentWithSession {
 
             }
         } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+
+    public JSONObject uploadFile(final String FileName, final String theSessionID)
+    {
+        final String api = "api/uploadfile";
+        JSONObject finalresponse = new JSONObject();
+        JSONObject level0 = new JSONObject();
+        try {
+
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return null;

@@ -24,7 +24,7 @@ public class LocationCollectionService extends Service {
     private MotionDetector motionDetector;
     //private PowerManager.WakeLock mWakeLock = null;
     private Boolean b_PowerLow = false;
-    public static final int SCREEN_OFF_RECEIVER_DELAY = 500;
+    public static final int SCREEN_OFF_RECEIVER_DELAY = 2000;
     public static final String TAG = LocationCollectionService.class.getName();
 
     private final IBinder mBinder = new GPSServiceBinder();
@@ -39,24 +39,27 @@ public class LocationCollectionService extends Service {
             Log.i(TAG, str_Action);
             if (!str_Action.equals(Intent.ACTION_SCREEN_OFF)
                     && !str_Action.equals(Intent.ACTION_BATTERY_LOW)
-                    && !str_Action.equals(Intent.ACTION_BATTERY_OKAY)) {
+                    && !str_Action.equals(Intent.ACTION_BATTERY_OKAY)
+                    /*&& !str_Action.equals(Intent.ACTION_SCREEN_ON)*/) {
                 return;
             }
 
             Runnable runnable = new Runnable() {
                 public void run() {
                     Log.i(TAG, "Runnable executing.");
-                    if(str_Action.equals(Intent.ACTION_SCREEN_OFF) && !b_PowerLow) {
+                    if((str_Action.equals(Intent.ACTION_SCREEN_OFF) /*|| str_Action.equals(Intent.ACTION_SCREEN_ON)*/) && !b_PowerLow) {
                         int count = motionDetector.getCount();
                         double AccelSum = motionDetector.getmAccelSum();
                         motionDetector.endService();
                         if (motionDetector.getB_Sensor1()) {
-                            motionDetector.startManager(1);
+                            //motionDetector.startManager(1);
+                            motionDetector.SwitchToSensors(1);
                             motionDetector.setCount(count);
                             motionDetector.setmAccelSum(AccelSum);
                         }
                         else {
-                            motionDetector.startManager(2);
+                            //motionDetector.startManager(2);
+                            motionDetector.SwitchToSensors(2);
                             motionDetector.setCount(count);
                             motionDetector.setmAccelSum(AccelSum);
                         }
@@ -98,7 +101,9 @@ public class LocationCollectionService extends Service {
         //PowerManager manager =
         //        (PowerManager) getSystemService(Context.POWER_SERVICE);
         //mWakeLock = manager.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, TAG);
+        //The motion sen
         registerReceiver(mReceiver, new IntentFilter(Intent.ACTION_SCREEN_OFF));
+        //registerReceiver(mReceiver, new IntentFilter(Intent.ACTION_SCREEN_ON));
         registerReceiver(mReceiver, new IntentFilter(Intent.ACTION_BATTERY_LOW));
         registerReceiver(mReceiver, new IntentFilter(Intent.ACTION_BATTERY_OKAY));
     }

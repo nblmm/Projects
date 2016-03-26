@@ -21,6 +21,7 @@ public class BootBroadCast extends BroadcastReceiver {
         */
 
         /** Activity*/
+
         Intent newIntent=new Intent(context,LoginScreen.class);
         /* MyActivity action defined in AndroidManifest.xml */
         newIntent.setAction("android.intent.action.MAIN");

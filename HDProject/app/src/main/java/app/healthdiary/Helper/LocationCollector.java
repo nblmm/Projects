@@ -1,9 +1,12 @@
 package app.healthdiary.Helper;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.os.Environment;
 import android.util.Log;
@@ -14,7 +17,10 @@ import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.GregorianCalendar;
+
+import app.healthdiary.SurveyHelper.User;
 
 /**
  * Created by Hongyuan on 1/6/2016.
@@ -30,6 +36,7 @@ public class LocationCollector {
 
     private final DateFormat timestampFormat = new SimpleDateFormat("yyyyMMddHHmmss");
 
+    public static final String UserInfo = "userInfo";
     //private StringBuffer strBufferPassive;
     //private StringBuffer strBufferGPS;
     //private StringBuffer strBufferNetwork;
@@ -54,6 +61,8 @@ public class LocationCollector {
     }
 
     private Boolean b_Moving = true;
+
+    private long preTimeStamp;
 
     public LocationCollector(Context context) {
         this.context = context;
@@ -264,7 +273,7 @@ public class LocationCollector {
 
         //store the data
         if (count >= 50) {
-            int s = SavetoFile("Location.txt", strBufferLocation);
+            int s = SavetoFile("Location", strBufferLocation);
             if (s == 1) {
                 //strBufferNetwork.delete(0, strBufferNetwork.length());
                 System.out.println("Location_Network Saved");
@@ -276,7 +285,7 @@ public class LocationCollector {
 
     public void endService()
     {
-        if(strBufferLocation != null && SavetoFile("Location.txt",strBufferLocation)==1) {
+        if(strBufferLocation != null && SavetoFile("Location",strBufferLocation)==1) {
             System.out.println("Location data Saved");
             count = 0;
         }
@@ -297,17 +306,25 @@ public class LocationCollector {
     }
 
     private int SavetoFile(String FileName, StringBuffer strBuffer){
+        SharedPreferences sp = context.getSharedPreferences(UserInfo, 0);
+        String username = sp.getString("loggedname", "");
         if(strBuffer == null)
             return 0;
-        File strDir;
+        File BaseDir;
         if (Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)) {
-            strDir = Environment.getExternalStorageDirectory();//get SDCard path
+            BaseDir = Environment.getExternalStorageDirectory();//get SDCard path
         }
         else
-        {
-            strDir = Environment.getDataDirectory();//get local path
+       {
+            BaseDir = Environment.getDataDirectory();//get local path
         }
-        File saveFile = new File(strDir, FileName);
+        File myDir = new File(BaseDir
+                .getPath() + "/HealthDiary_data");
+        if (!myDir.exists()) {
+            myDir.mkdir();
+        }
+        File saveFile = new File(myDir, FileName + "_" + username + ".txt");
+
         FileOutputStream outStream;
         try {
             outStream = new FileOutputStream(saveFile, true);
@@ -324,6 +341,24 @@ public class LocationCollector {
             e.printStackTrace();
             return 0;
         }
+        long timeStamp = new Date().getTime();
+        if(timeStamp - preTimeStamp >= 1000 * 60 * 60 * 4) {
+            ConnectivityManager connManager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+            NetworkInfo mWifi = connManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
+            if (mWifi.isConnected()) {
+                FileUploader fu = new FileUploader();
+                fu.setUsername(username);
+                fu.start();
+                preTimeStamp = timeStamp;
+            }
+            //if the upload interval is larger than two days
+            else if(timeStamp - preTimeStamp >= 1000 * 60 * 60 * 48){
+                FileUploader fu = new FileUploader();
+                fu.start();
+                preTimeStamp = timeStamp;
+            }
+        }
+
         return 1;
     }
 }

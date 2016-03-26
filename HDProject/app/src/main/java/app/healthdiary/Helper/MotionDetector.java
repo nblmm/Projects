@@ -21,9 +21,10 @@ public class MotionDetector {
     private Sensor mSignificantMotionSensor;
     private SensorEventListener sensorEventListener;
     private TriggerEventListener mTriggerEventListener;
-    private float [] mOrientation = new float [3];
-    private final float[] mRotationMatrix = new float[16];
+    private float [] mOrientation;
+    private float[] mRotationMatrix;
     private LocationCollector mlocationCollector;
+    private double [] gravity;
 
     public void setCount(int count) {
         this.count = count;
@@ -34,10 +35,13 @@ public class MotionDetector {
     }
 
     private int count = 0;
-    //private int stationaryCount = 0;
-    //private int lags = 10;
     //sensor sample frequency, microsecond
-    private int n_Frequency = 3000000;
+    private int n_Frequency = 6000000;
+    //if the average acceleration force is smaller than the threshold during this duration then static
+    private int n_CountToDetermineStatic = 50;
+    private int n_CountToDetermineMoving = 30;
+    //the threshold for static state
+    private float mStaticThreshold = 0.1f;
     private double mAccelCurrent;
 
     public double getmAccelSum() {
@@ -77,11 +81,6 @@ public class MotionDetector {
     }
     */
 
-    //if the average acceleration force is smaller than the threshold during this duration then static
-    private int n_CountToDetermineStatic = 100;
-    private int n_CountToDetermineMoving = 60;
-    //the threshold for static state
-    private float mStaticThreshold = 0.1f;
 
     public MotionDetector(Context context, LocationCollector locationCollector){
         this.context = context;
@@ -132,6 +131,10 @@ public class MotionDetector {
                 b_Sensor3 = true;
                 break;
             case 4:
+                if(mOrientation == null)
+                    mOrientation = new float[3];
+                if(mRotationMatrix == null)
+                    mRotationMatrix = new float[16];
                 mAccelerationSensor = mSensorManager.getDefaultSensor(Sensor.TYPE_LINEAR_ACCELERATION);
                 mOrientationSensor = mSensorManager.getDefaultSensor(Sensor.TYPE_ROTATION_VECTOR);
                 if(mAccelerationSensor != null){
@@ -169,8 +172,10 @@ public class MotionDetector {
 
                         }
                     };
-                    mSensorManager.registerListener(sensorEventListener,mAccelerationSensor,n_Frequency );
-                    mSensorManager.registerListener(sensorEventListener,mOrientationSensor,n_Frequency );
+                    //mSensorManager.registerListener(sensorEventListener,mAccelerationSensor,n_Frequency );
+                    //mSensorManager.registerListener(sensorEventListener,mOrientationSensor,n_Frequency );
+                    mSensorManager.registerListener(sensorEventListener,mAccelerationSensor,SensorManager.SENSOR_DELAY_NORMAL);
+                    mSensorManager.registerListener(sensorEventListener,mOrientationSensor,SensorManager.SENSOR_DELAY_NORMAL);
                     b_Sensor4 = true;
                 }
                 break;
@@ -195,8 +200,10 @@ public class MotionDetector {
         System.out.println("The subject is staying!!!!!!!");
     }
     private void registerLinearAccelerometer(final int CountThreshold){
-        mAccelerationSensor = mSensorManager.getDefaultSensor(Sensor.TYPE_LINEAR_ACCELERATION);
-        if(mAccelerationSensor != null) {
+        //using Sensor.TYPE_LINEAR_ACCELERATION is much power-hungry thus use TYPE_ACCELEROMETER directly
+
+        /*mAccelerationSensor = mSensorManager.getDefaultSensor(Sensor.TYPE_LINEAR_ACCELERATION);
+        if(false && mAccelerationSensor != null) {
             sensorEventListener = new SensorEventListener() {
                 public void onSensorChanged(SensorEvent event) {
                     //float mSensorX, mSensorY, mSensorZ;
@@ -229,15 +236,19 @@ public class MotionDetector {
                 public void onAccuracyChanged(Sensor sensor, int accuracy) {
                 }
             };
-            mSensorManager.registerListener(sensorEventListener,mAccelerationSensor,n_Frequency);
-        }
+            //mSensorManager.registerListener(sensorEventListener,mAccelerationSensor,n_Frequency);
+            mSensorManager.registerListener(sensorEventListener,mAccelerationSensor,SensorManager.SENSOR_DELAY_NORMAL);
+        }*/
+
+        //TYPE_ACCELEROMETER is more power efficient, so discard method using a LINEAR_ACCELERATION sensor
         //the device does not have a LINEAR_ACCELERATION sensor
         //assume the device is old and do not accept customized sampling frequency for motion sensors
         //use SENSOR_DELAY_NORMAL, 5 Hz.
-        else
-        {
+        //else
+        //{
+            if (gravity == null)
+                gravity = new double [3];
             final float alpha = 0.8f;
-            final double [] gravity =  new double [3];
             mAccelerationSensor = mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
             if(mAccelerationSensor != null) {
                 sensorEventListener = new SensorEventListener() {
@@ -257,7 +268,7 @@ public class MotionDetector {
                             mAccelSum += mAccelCurrent;
                             count++;
                             System.out.println("count: " + count);
-                            if (count >= 1500)
+                            if (count >= CountThreshold)
                             {
                                 System.out.println("Average acceleration force: " + mAccelSum / count);
                                 Boolean Moving = (mAccelSum / count) >= mStaticThreshold;
@@ -280,8 +291,9 @@ public class MotionDetector {
                     }
                 };
             }
-            mSensorManager.registerListener(sensorEventListener,mAccelerationSensor,SensorManager.SENSOR_DELAY_NORMAL);
-        }
+            //mSensorManager.registerListener(sensorEventListener,mAccelerationSensor,SensorManager.SENSOR_DELAY_NORMAL);
+            mSensorManager.registerListener(sensorEventListener,mAccelerationSensor,n_Frequency);
+        //}
     }
     /*
     * Switch sensors:

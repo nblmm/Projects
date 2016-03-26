@@ -33,7 +33,7 @@
         android:layout_alignParentStart="true"
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
-        android:text="harry">
+        android:text="">
     </EditText>
 
     <TextView
@@ -64,7 +64,7 @@
         android:layout_marginLeft="20dp"
         android:layout_alignRight="@+id/username_edittext"
         android:layout_alignEnd="@+id/username_edittext"
-        android:text="123">
+        android:text="">
     </EditText>
 
     <CheckBox

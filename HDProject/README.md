@@ -31,12 +31,43 @@ After login, a main page shows. A set of survey questions prompts at a random mo
 > Location data sources (including GPS and network) is also switched 
 > based on factors such as motion status, battery level and GPS accuracy.
 
+Source files:
+  - .\app\src\main\java\app\healthdiary\Services\LocationCollectionService.java
+  - .\app\src\main\java\app\healthdiary\Helper\LocationCollector.java
+  - .\app\src\main\java\app\healthdiary\Helper\MotionDetector.java
+  
 Classes: 
 -  LocationCollectionService: a service runs in background catching event broadcasts including screen off, battery power level low and battery power level recover. It runs a LocationCollector instance and a MotionDetector instance.
 -  LocationCollector: an object collects location data. It collects location data utilizing Google LocationManager. It takes four types and combinations of location data sources including Passive, GPS, Network and GPS + Network. It also takes two modes of data collection for moving and staying. In the moving mode, location data is sampled every 20 meters with a minimun time interval of 10 seconds while in the staying mode, location data is sampled every 5 minutes. 
 -  MotionDetector: an object collects motion sensor (Accelerometer) data and determines motion status. It takes the LocationCollector instance of the LocationCollectionService as a member variable and switch the location data sources and data collection modes of the LocationCollector instance according to the detected motion status.
 
-Usage: Create and Start the LocationCollectionService with the starts of the application. Stop the service when closing the application or at the time you want to actively stop the service.
+Usage: 
+-  Create and Start the LocationCollectionService with the starts of the application. 
+```sh
+Intent ServiceIntent = new Intent(getBaseContext(), LocationCollectionService.class);
+startService(ServiceIntent);
+```
+-  Stop the service when closing the application or at the time you want to actively stop the service.
+```sh
+Intent serviceintent = new Intent(getBaseContext(),LocationCollectionService.class);
+stopService(serviceintent);
+```
+-  Noete: record user name in the SharedPreferences object with the object name "userInfo" and field name "loggedname". 
+-  Example:
+```sh
+SharedPreferences sp = getSharedPreferences(UserInfo, 0);
+SharedPreferences.Editor editor = sp.edit();
+editor.putString("loggedname", name);
+editor.apply();
+```
+
+Battery consumption tests:
+-  OS: Android 4.2
+-  Brand: HUAWEI
+-  Battery: 2000mAh
+-  Battery level from 100% to 15% duration: 14 ~ 15 hours 
+-  Call time: around 20 minutes
+-  Total moving time: 1.5 ~ 2 hours
 
 ### Version
 1.0.1

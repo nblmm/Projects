@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<items version="2" >
+
+    <item
+        jar="C:\Users\Hongyuan\.gradle\caches\modules-2\files-2.1\org.apache.httpcomponents\httpmime\4.5.1\96823b9421ebb9f490dec837d9f96134e864e3a7\httpmime-4.5.1.jar"
+        jumboMode="false"
+        revision="22.0.1"
+        sha1="96823b9421ebb9f490dec837d9f96134e864e3a7">
+        <dex dex="C:\Users\Hongyuan\Dropbox\Health Diary\Health Diary Project\app\build\intermediates\pre-dexed\debug\httpmime-4.5.1-ae642a42942aecc8746ba0dcd385a414c86e7547.jar" />
+    </item>
+
+</items>
