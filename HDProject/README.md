@@ -35,7 +35,11 @@ Source files:
   - .\app\src\main\java\app\healthdiary\Services\LocationCollectionService.java
   - .\app\src\main\java\app\healthdiary\Helper\LocationCollector.java
   - .\app\src\main\java\app\healthdiary\Helper\MotionDetector.java
+<<<<<<< HEAD
   
+=======
+
+>>>>>>> 2178910c361bf148502bbd08f9ecc8ff2bb8ea9c
 Classes: 
 -  LocationCollectionService: a service runs in background catching event broadcasts including screen off, battery power level low and battery power level recover. It runs a LocationCollector instance and a MotionDetector instance.
 -  LocationCollector: an object collects location data. It collects location data utilizing Google LocationManager. It takes four types and combinations of location data sources including Passive, GPS, Network and GPS + Network. It also takes two modes of data collection for moving and staying. In the moving mode, location data is sampled every 20 meters with a minimun time interval of 10 seconds while in the staying mode, location data is sampled every 5 minutes. 
